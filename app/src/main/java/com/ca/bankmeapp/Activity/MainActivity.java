@@ -15,7 +15,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ca.bankmeapp.Fragment.ChatFragment;
+import com.ca.bankmeapp.Fragment.GoalsFragment;
 import com.ca.bankmeapp.Fragment.HomeFragment;
+import com.ca.bankmeapp.Fragment.SendMoneyFragment;
 import com.ca.bankmeapp.R;
 
 public class MainActivity extends AppCompatActivity
@@ -25,8 +28,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        showFragment(new HomeFragment(), HomeFragment.TAG);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,12 +49,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+        showFragment(new HomeFragment(), HomeFragment.TAG);
     }
 
     private void showFragment(Fragment fragment, String tag) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment, tag);
-        transaction.addToBackStack(null);
+        //transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -89,24 +94,26 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id) {
+            case R.id.nav_home :
+                showFragment(new HomeFragment(), HomeFragment.TAG);
+                break;
+            case R.id.nav_send_money :
+                showFragment(new SendMoneyFragment(), SendMoneyFragment.TAG);
+                break;
+            case R.id.nav_chat :
+                showFragment(new ChatFragment(), SendMoneyFragment.TAG);
+                break;
+            case R.id.nav_goals :
+                showFragment(new GoalsFragment(), SendMoneyFragment.TAG);
+                break;
+            default:
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
